@@ -7,6 +7,14 @@ pub struct Config {
     pub bottom_padding: i32,
     pub left_padding: i32,
     pub right_padding: i32,
+    pub bot_config: BotConfig,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct BotConfig {
+    pub enable: bool,
+    pub uin: i64,
+    pub source_groups: Vec<i64>,
 }
 
 impl Default for Config {
@@ -17,6 +25,11 @@ impl Default for Config {
             bottom_padding: 0,
             left_padding: 0,
             right_padding: 0,
+            bot_config: BotConfig {
+                enable: false,
+                uin: 0,
+                source_groups: vec![],
+            },
         }
     }
 }

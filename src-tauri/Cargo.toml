@@ -9,22 +9,21 @@ edition = "2021"
 rust-version = "1.57"
 
 [build-dependencies]
-tauri-build = { version = "1.2", features = [] }
+tauri-build = { version = "1.3", features = [] }
 
 [dependencies]
 serde_json = "1.0"
 serde = { version = "1.0", features = ["derive"] }
-tauri = { version = "1.3", features = [
-    "api-all",
-    "config-json5",
-    "system-tray",
-] }
+tauri = { version = "1.3", features = ["api-all", "config-json5", "system-tray"] }
 tauri-plugin-log = { git = "https://github.com/tauri-apps/plugins-workspace", branch = "v1" }
 ws = "0.9"
 anyhow = "1.0"
 log = "0.4"
 confy = "0.5"
 edit = "0.1.4"
+chocho = { git = "https://github.com/Wybxc/chocho.git" }
+chocho_msg = { git = "https://github.com/Wybxc/chocho.git" }
+async-trait = "0.1.68"
 
 [features]
 # by default Tauri runs in production mode
@@ -33,6 +32,10 @@ default = ["custom-protocol"]
 # this feature is used used for production builds where `devPath` points to the filesystem
 # DO NOT remove this
 custom-protocol = ["tauri/custom-protocol"]
+
+[patch.crates-io]
+ricq = { git = "https://github.com/Wybxc/ricq.git", branch = "chocho-patch" }
+ricq-core = { git = "https://github.com/Wybxc/ricq.git", branch = "chocho-patch" }
 
 [[bin]]
 name = "test_client"

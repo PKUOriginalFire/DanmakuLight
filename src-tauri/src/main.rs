@@ -12,6 +12,7 @@ use tauri_plugin_log::{Builder as LoggerBuilder, LogTarget};
 
 mod tray;
 mod ws_server;
+mod ricq_backend;
 
 fn setup(app: &mut tauri::App) -> Result<()> {
     let window = app
@@ -23,6 +24,7 @@ fn setup(app: &mut tauri::App) -> Result<()> {
 
     ws_server::setup(app, &config);
     tray::setup(app)?;
+    ricq_backend::setup(app, &config);
 
     Ok(())
 }
