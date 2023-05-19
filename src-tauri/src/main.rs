@@ -7,7 +7,7 @@ use anyhow::{anyhow, Result};
 
 use tauri::Manager;
 
-use tauri_plugin_log::{LogTarget, LoggerBuilder};
+use tauri_plugin_log::{Builder as LoggerBuilder, LogTarget};
 
 mod tray;
 mod ws_server;

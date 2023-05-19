@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "元火弹幕姬 Light。"
 authors = ["wybxc@qq.com"]
 license = "Apache-2.0"
-repository = ""
+repository = "https://github.com/PKUOriginalFire/DanmakuLight"
 edition = "2021"
 rust-version = "1.57"
 
@@ -14,8 +14,8 @@ tauri-build = { version = "1.2", features = [] }
 [dependencies]
 serde_json = "1.0"
 serde = { version = "1.0", features = ["derive"] }
-tauri = { version = "1.2", features = ["api-all", "config-json5", "system-tray"] }
-tauri-plugin-log = { git = "https://github.com/tauri-apps/tauri-plugin-log", branch = "dev" }
+tauri = { version = "1.3", features = ["api-all", "config-json5", "system-tray"] }
+tauri-plugin-log = { git = "https://github.com/tauri-apps/plugins-workspace", branch = "v1" }
 ws = "0.9"
 anyhow = "1.0"
 log = "0.4"
