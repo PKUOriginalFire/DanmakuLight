@@ -3,19 +3,21 @@ use std::error::Error;
 use std::sync::{Arc, Mutex};
 use std::thread;
 
+use anyhow::Result;
+use danmaku_light::config::Config;
+use danmaku_light::message::Danmaku;
 use tauri::Manager;
 
-use danmaku_light::message::Danmaku;
-
-pub fn setup(app: &tauri::App) {
+pub fn setup(app: &tauri::App, config: &Config) {
     fn wrap_ws_err(err: impl Error + Sync + Send + 'static) -> ws::Error {
         let details = err.to_string();
         ws::Error::new(ws::ErrorKind::Custom(Box::new(err)), details)
     }
 
     let app = Arc::new(Mutex::new(app.handle()));
+    let address = format!("127.0.0.1:{}", config.ws_port);
     thread::spawn(move || {
-        ws::listen("127.0.0.1:3210", |_| {
+        ws::listen(address, |_| {
             let app = app.clone();
             move |msg| -> Result<(), ws::Error> {
                 if let ws::Message::Text(text) = msg {

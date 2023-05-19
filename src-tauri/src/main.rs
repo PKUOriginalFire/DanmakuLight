@@ -5,6 +5,7 @@
 
 use anyhow::{anyhow, Result};
 
+use danmaku_light::config::{load_config, Config};
 use tauri::Manager;
 
 use tauri_plugin_log::{Builder as LoggerBuilder, LogTarget};
@@ -18,10 +19,17 @@ fn setup(app: &mut tauri::App) -> Result<()> {
         .ok_or_else(|| anyhow!("failed to get window"))?;
     window.set_ignore_cursor_events(true)?;
 
-    ws_server::setup(app);
+    let config = load_config()?;
+
+    ws_server::setup(app, &config);
     tray::setup(app)?;
 
     Ok(())
+}
+
+#[tauri::command]
+fn get_config() -> Result<Config, String> {
+    load_config().map_err(|e| e.to_string())
 }
 
 fn main() {
@@ -32,6 +40,7 @@ fn main() {
     tauri::Builder::default()
         .setup(|app| Ok(setup(app)?))
         .plugin(logger)
+        .invoke_handler(tauri::generate_handler![get_config])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

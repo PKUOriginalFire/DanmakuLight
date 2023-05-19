@@ -1,6 +1,7 @@
 import Danmaku from 'danmaku'
 import { info } from 'tauri-plugin-log-api'
 import { listen } from '@tauri-apps/api/event'
+import { invoke } from '@tauri-apps/api'
 
 /**
  * 事件：弹幕发送。
@@ -42,6 +43,28 @@ await listen('show', () => {
 await listen('hide', () => {
   app.style.marginTop = '100%'
 })
+
+const reloadConfig = async () => {
+  const config: {
+    top_padding: number,
+    bottom_padding: number,
+    left_padding: number,
+    right_padding: number,
+  } = await invoke('get_config')
+
+  await info(`加载配置：${JSON.stringify(config)}`)
+
+  app.style.paddingTop = `${config.top_padding}px`
+  app.style.paddingBottom = `${config.bottom_padding}px`
+  app.style.paddingLeft = `${config.left_padding}px`
+  app.style.paddingRight = `${config.right_padding}px`
+}
+
+// 事件：配置变更。
+await listen('config', reloadConfig)
+
+// 初始化配置。
+await reloadConfig()
 
 // 隐藏启动页面。
 setTimeout(() => (document.getElementById('splashscreen')!.style.opacity = '0'), 500)

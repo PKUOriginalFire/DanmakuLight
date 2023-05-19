@@ -6,11 +6,14 @@ use tauri::{
     CustomMenuItem, Manager, SystemTray, SystemTrayEvent, SystemTrayMenu, SystemTrayMenuItem,
 };
 
-use danmaku_light::message::Danmaku;
+use danmaku_light::{config::get_config_file_path, message::Danmaku};
 
 pub fn setup(app: &tauri::App) -> Result<()> {
     let tray_menu = SystemTrayMenu::new()
         .add_item(CustomMenuItem::new("show_hide", "显示/隐藏").selected())
+        .add_native_item(SystemTrayMenuItem::Separator)
+        .add_item(CustomMenuItem::new("edit_config", "编辑配置文件"))
+        .add_item(CustomMenuItem::new("reload_config", "重载配置文件"))
         .add_native_item(SystemTrayMenuItem::Separator)
         .add_item(CustomMenuItem::new("about", "关于"))
         .add_native_item(SystemTrayMenuItem::Separator)
@@ -22,12 +25,14 @@ pub fn setup(app: &tauri::App) -> Result<()> {
         .on_event(move |event| {
             if let SystemTrayEvent::MenuItemClick { id, .. } = event {
                 let result = match id.as_str() {
+                    "show_hide" => show_hide(&handle),
+                    "edit_config" => edit_config(&handle),
+                    "reload_config" => reload_config(&handle),
+                    "about" => about(&handle),
                     "quit" => {
                         handle.exit(0);
                         Ok(())
                     }
-                    "about" => about(&handle),
-                    "show_hide" => show_hide(&handle),
                     _ => Ok(()),
                 };
                 if let Err(e) = result {
@@ -52,6 +57,18 @@ fn show_hide(app: &tauri::AppHandle) -> Result<()> {
         IS_SHOWING.store(true, std::sync::atomic::Ordering::Relaxed);
         item_handle.set_selected(true)?;
     }
+    Ok(())
+}
+
+/// 托盘菜单「编辑配置文件」选项。
+fn edit_config(_app: &tauri::AppHandle) -> Result<()> {
+    edit::edit_file(get_config_file_path()?)?;
+    Ok(())
+}
+
+/// 托盘菜单「重载配置文件」选项。
+fn reload_config(app: &tauri::AppHandle) -> Result<()> {
+    app.emit_all("config", ())?;
     Ok(())
 }
 
