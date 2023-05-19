@@ -6,7 +6,7 @@ use tauri::{
     CustomMenuItem, Manager, SystemTray, SystemTrayEvent, SystemTrayMenu, SystemTrayMenuItem,
 };
 
-use crate::message::Danmaku;
+use danmaku_light::message::Danmaku;
 
 pub fn setup(app: &tauri::App) -> Result<()> {
     let tray_menu = SystemTrayMenu::new()

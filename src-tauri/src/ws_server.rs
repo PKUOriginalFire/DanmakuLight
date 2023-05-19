@@ -5,7 +5,7 @@ use std::thread;
 
 use tauri::Manager;
 
-use crate::message::Danmaku;
+use danmaku_light::message::Danmaku;
 
 pub fn setup(app: &tauri::App) {
     fn wrap_ws_err(err: impl Error + Sync + Send + 'static) -> ws::Error {

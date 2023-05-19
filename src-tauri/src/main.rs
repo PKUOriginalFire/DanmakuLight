@@ -9,7 +9,6 @@ use tauri::Manager;
 
 use tauri_plugin_log::{LogTarget, LoggerBuilder};
 
-mod message;
 mod tray;
 mod ws_server;
 
