@@ -44,13 +44,13 @@ await listen('hide', () => {
   app.style.marginTop = '100%'
 })
 
-const reloadConfig = async () => {
+const reloadContainerConfig = async () => {
   const config: {
     top_padding: number,
     bottom_padding: number,
     left_padding: number,
     right_padding: number,
-  } = await invoke('get_config')
+  } = await invoke('get_current_config')
 
   await info(`加载配置：${JSON.stringify(config)}`)
 
@@ -61,10 +61,10 @@ const reloadConfig = async () => {
 }
 
 // 事件：配置变更。
-await listen('config', reloadConfig)
+await listen('reload_config', reloadContainerConfig)
 
 // 初始化配置。
-await reloadConfig()
+await reloadContainerConfig()
 
 // 隐藏启动页面。
 setTimeout(() => (document.getElementById('splashscreen')!.style.opacity = '0'), 500)

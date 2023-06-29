@@ -3,7 +3,7 @@ use chocho::prelude::*;
 use std::sync::{Arc, Mutex};
 
 use chocho::ricq::client::event::GroupMessageEvent;
-use danmaku_light::{config, message::Danmaku};
+use crate::{config, message::Danmaku};
 use tauri::{AppHandle, Manager};
 
 struct Handler {

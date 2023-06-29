@@ -59,9 +59,9 @@
         "resizable": false,
         "decorations": false,
         "alwaysOnTop": true,
-        "skipTaskbar": false,
+        "skipTaskbar": true,
         "transparent": true,
-        "titleBarStyle": "Transparent",
+        "titleBarStyle": "Overlay",
         "title": "元火弹幕姬"
       }
     ],

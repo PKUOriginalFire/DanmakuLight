@@ -6,7 +6,7 @@ use tauri::{
     CustomMenuItem, Manager, SystemTray, SystemTrayEvent, SystemTrayMenu, SystemTrayMenuItem,
 };
 
-use danmaku_light::{config::get_config_file_path, message::Danmaku};
+use crate::{config::{get_config_file_path, global_config, Config}, message::Danmaku};
 
 pub fn setup(app: &tauri::App) -> Result<()> {
     let tray_menu = SystemTrayMenu::new()
@@ -14,6 +14,9 @@ pub fn setup(app: &tauri::App) -> Result<()> {
         .add_native_item(SystemTrayMenuItem::Separator)
         .add_item(CustomMenuItem::new("edit_config", "编辑配置文件"))
         .add_item(CustomMenuItem::new("reload_config", "重载配置文件"))
+        .add_native_item(SystemTrayMenuItem::Separator)
+        .add_item(CustomMenuItem::new("restart_ws_server", "重启websocket服务"))
+        .add_item(CustomMenuItem::new("restart_ricq", "重启内置QQ服务"))
         .add_native_item(SystemTrayMenuItem::Separator)
         .add_item(CustomMenuItem::new("about", "关于"))
         .add_native_item(SystemTrayMenuItem::Separator)
@@ -28,6 +31,8 @@ pub fn setup(app: &tauri::App) -> Result<()> {
                     "show_hide" => show_hide(&handle),
                     "edit_config" => edit_config(&handle),
                     "reload_config" => reload_config(&handle),
+                    "restart_ws_server" => restart_wsserver(&handle),
+                    "restart_ricq" => restart_ricq(&handle),
                     "about" => about(&handle),
                     "quit" => {
                         handle.exit(0);
@@ -68,7 +73,21 @@ fn edit_config(_app: &tauri::AppHandle) -> Result<()> {
 
 /// 托盘菜单「重载配置文件」选项。
 fn reload_config(app: &tauri::AppHandle) -> Result<()> {
+    *(global_config().get_mut()) = Config::new();
+    log::info!("config reloaded:\n{:?}", global_config().content());
     app.emit_all("config", ())?;
+    Ok(())
+}
+
+/// 托盘菜单“重启websocket服务”选项。
+fn restart_wsserver(app: &tauri::AppHandle) -> Result<()> {
+    crate::ws_server::setup(app.clone(), global_config().content().ws_port);
+    Ok(())
+}
+
+/// 托盘菜单“重启websocket服务”选项。
+fn restart_ricq(_app: &tauri::AppHandle) -> Result<()> {
+    // TODO
     Ok(())
 }
 
