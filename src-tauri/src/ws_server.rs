@@ -17,7 +17,7 @@ static STOP_FLAG: AtomicBool = AtomicBool::new(false);
 fn set_stop(val: bool) {
     STOP_FLAG.store(val, Ordering::Relaxed);
 }
-fn check_to_stop() -> bool {
+fn check_stop() -> bool {
     STOP_FLAG.load(Ordering::Relaxed)
 }
 
@@ -48,7 +48,7 @@ async fn handle_conn(stream: TcpStream, app: Arc<Mutex<tauri::AppHandle>>) -> Re
                 }
             }
             _ = interval.tick() => {
-                if check_to_stop() {
+                if check_stop() {
                     break;
                 }
             }
@@ -87,7 +87,7 @@ async fn start_ws(app: tauri::AppHandle, port: u16) {
                         tauri::async_runtime::spawn(handle_conn(stream, app.clone()));
                     }
                     _ = interval.tick() => {
-                        if check_to_stop() {
+                        if check_stop() {
                             break;
                         }
                     }

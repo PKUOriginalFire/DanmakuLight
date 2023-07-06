@@ -16,7 +16,6 @@ pub fn setup(app: &tauri::App) -> Result<()> {
         .add_item(CustomMenuItem::new("reload_config", "重载配置文件"))
         .add_native_item(SystemTrayMenuItem::Separator)
         .add_item(CustomMenuItem::new("restart_ws_server", "重启websocket服务"))
-        .add_item(CustomMenuItem::new("restart_ricq", "重启内置QQ服务"))
         .add_native_item(SystemTrayMenuItem::Separator)
         .add_item(CustomMenuItem::new("about", "关于"))
         .add_native_item(SystemTrayMenuItem::Separator)
@@ -32,7 +31,6 @@ pub fn setup(app: &tauri::App) -> Result<()> {
                     "edit_config" => edit_config(&handle),
                     "reload_config" => reload_config(&handle),
                     "restart_ws_server" => restart_wsserver(&handle),
-                    "restart_ricq" => restart_ricq(&handle),
                     "about" => about(&handle),
                     "quit" => {
                         handle.exit(0);
@@ -85,11 +83,6 @@ fn restart_wsserver(app: &tauri::AppHandle) -> Result<()> {
     Ok(())
 }
 
-/// 托盘菜单“重启websocket服务”选项。
-fn restart_ricq(_app: &tauri::AppHandle) -> Result<()> {
-    // TODO
-    Ok(())
-}
 
 /// 托盘菜单「关于」选项。
 fn about(app: &tauri::AppHandle) -> Result<()> {

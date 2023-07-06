@@ -50,10 +50,9 @@ fn main() {
         .invoke_handler(tauri::generate_handler![
             get_config,
             save_config,
+            patch_config,
             get_current_config,
-            reload_all,
             reload_ws,
-            reload_ricq,
             ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

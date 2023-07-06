@@ -1,15 +1,18 @@
 use anyhow::Result;
 
-use crate::config::Config;
-
-use crate::config::global_config;
+use crate::config::{Config, ConfigPatch, global_config};
 
 type CommandResult<T = ()> = Result<T, String>;
 
 #[tauri::command]
-pub async fn save_config() -> CommandResult {
-    // TODO
+pub async fn patch_config(patch: ConfigPatch) -> CommandResult {
+    global_config().get_mut().patch(patch);
     Ok(())
+}
+
+#[tauri::command]
+pub async fn save_config() -> CommandResult {
+    crate::config::save_config().map_err(|e|{e.to_string()})
 }
 
 #[tauri::command]
@@ -17,23 +20,9 @@ pub async fn get_current_config() -> CommandResult<Config> {
     Ok(global_config().content())
 }
 
-// 重启所有服务（感觉不如直接重启应用）
-#[tauri::command]
-pub async fn reload_all() -> CommandResult {
-    // TODO
-    Ok(())
-}
-
 // 重启websocket服务
 #[tauri::command]
-pub async fn reload_ws() -> CommandResult {
-    // TODO
-    Ok(())
-}
-
-// 重启ricq服务
-#[tauri::command]
-pub async fn reload_ricq() -> CommandResult {
-    // TODO
+pub async fn reload_ws(app: tauri::AppHandle) -> CommandResult {
+    crate::ws_server::setup(app.clone(), global_config().content().ws_port);
     Ok(())
 }

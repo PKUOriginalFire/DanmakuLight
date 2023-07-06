@@ -120,3 +120,7 @@ pub fn get_config_file_path() -> anyhow::Result<std::path::PathBuf> {
 pub fn load_config() -> anyhow::Result<Config> {
     Ok(confy::load("danmaku-light", None)?)
 }
+
+pub fn save_config() -> anyhow::Result<()> {
+    Ok(confy::store("danmaku-light", None, global_config().content())?)
+}
