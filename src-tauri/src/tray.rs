@@ -6,12 +6,13 @@ use tauri::{
     CustomMenuItem, Manager, SystemTray, SystemTrayEvent, SystemTrayMenu, SystemTrayMenuItem,
 };
 
-use crate::{config::{get_config_file_path, global_config, Config}, message::Danmaku};
+use crate::{config::{get_config_file_path, global_config, Config}, message::Danmaku, config_panel::create_config_panel};
 
 pub fn setup(app: &tauri::App) -> Result<()> {
     let tray_menu = SystemTrayMenu::new()
         .add_item(CustomMenuItem::new("show_hide", "显示/隐藏").selected())
         .add_native_item(SystemTrayMenuItem::Separator)
+        .add_item(CustomMenuItem::new("open_panel", "打开配置窗口"))
         .add_item(CustomMenuItem::new("edit_config", "编辑配置文件"))
         .add_item(CustomMenuItem::new("reload_config", "重载配置文件"))
         .add_native_item(SystemTrayMenuItem::Separator)
@@ -28,6 +29,7 @@ pub fn setup(app: &tauri::App) -> Result<()> {
             if let SystemTrayEvent::MenuItemClick { id, .. } = event {
                 let result = match id.as_str() {
                     "show_hide" => show_hide(&handle),
+                    "open_panel" => Ok(create_config_panel(&handle)),
                     "edit_config" => edit_config(&handle),
                     "reload_config" => reload_config(&handle),
                     "restart_ws_server" => restart_wsserver(&handle),
@@ -41,6 +43,9 @@ pub fn setup(app: &tauri::App) -> Result<()> {
                 if let Err(e) = result {
                     log::error!("failed to handle system tray event: {}", e);
                 }
+            }
+            else if let SystemTrayEvent::DoubleClick { .. } = event {
+                create_config_panel(&handle);
             }
         })
         .build(app)?;
@@ -73,7 +78,7 @@ fn edit_config(_app: &tauri::AppHandle) -> Result<()> {
 fn reload_config(app: &tauri::AppHandle) -> Result<()> {
     *(global_config().get_mut()) = Config::new();
     log::info!("config reloaded:\n{:?}", global_config().content());
-    app.emit_all("config", ())?;
+    app.emit_all("reload_config", ())?;
     Ok(())
 }
 

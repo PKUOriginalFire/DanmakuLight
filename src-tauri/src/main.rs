@@ -17,6 +17,7 @@ mod ricq_backend;
 mod commands;
 mod config;
 mod message;
+mod config_panel;
 
 fn setup(app: &mut tauri::App) -> Result<()> {
     let window = app

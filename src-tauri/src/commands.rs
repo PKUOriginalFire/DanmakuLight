@@ -1,12 +1,14 @@
 use anyhow::Result;
-
+use tauri::Manager;
 use crate::config::{Config, ConfigPatch, global_config};
 
 type CommandResult<T = ()> = Result<T, String>;
 
 #[tauri::command]
-pub async fn patch_config(patch: ConfigPatch) -> CommandResult {
+pub async fn patch_config(app: tauri::AppHandle, patch: ConfigPatch) -> CommandResult {
     global_config().get_mut().patch(patch);
+    let _ = &app.emit_all("reload_config", ());
+    crate::config::save_config().map_err(|e|{e.to_string()})?;
     Ok(())
 }
 
