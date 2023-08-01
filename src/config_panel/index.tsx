@@ -1,13 +1,12 @@
-import React, { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import {
   IconButton,
   List,
   ListItem,
   ListItemText,
   Paper,
-  Switch,
-  TextField,
   ThemeProvider,
+  Typography,
   createTheme
 } from '@mui/material'
 import { ErrorBoundary, FallbackProps } from 'react-error-boundary'
@@ -18,6 +17,8 @@ import { SWRConfig } from 'swr'
 import { WsDialog } from './settings-ws'
 import { PaddingsDialog } from './settings-paddings'
 import { BotDialog } from './settings-bot'
+import { WindowControl } from './window-control'
+import './index.scss'
 
 function Fallback({ error }: FallbackProps) {
   return (
@@ -55,40 +56,58 @@ const App = () => {
       <ThemeProvider theme={theme}>
         <Paper
           className="layout"
+          elevation={3}
           onPointerDown={(e: any) => {
             if (e.target?.dataset?.windrag) appWindow.startDragging()
           }}
           data-windrag
         >
           <ErrorBoundary FallbackComponent={Fallback} data-windrag>
-            <List>
-              <WsDialog ref={WsRef} />
-              <PaddingsDialog ref={PaddingsRef} />
-              <BotDialog ref={BotRef} />
-
-              <ListItem sx={{ padding: '5px 20px' }}>
-                <ListItemText primary="Websocket Settings" />
-                <IconButton color="inherit" size="small" onClick={() => WsRef.current?.open()}>
-                  <ArrowForward />
-                </IconButton>
-              </ListItem>
-              <ListItem sx={{ padding: '5px 20px' }}>
-                <ListItemText primary="Danmaku Settings" />
-                <IconButton
-                  color="inherit"
-                  size="small"
-                  onClick={() => PaddingsRef.current?.open()}
-                >
-                  <ArrowForward />
-                </IconButton>
-              </ListItem>
-              <ListItem sx={{ padding: '5px 20px' }}>
-                <ListItemText primary="QQBot Settings" />
-                <IconButton color="inherit" size="small" onClick={() => BotRef.current?.open()}>
-                  <ArrowForward />
-                </IconButton>
-              </ListItem>
-            </List>
+            <div className='topbar'>
+              <WindowControl />
+            </div>
+            
+            <div className='content'>
+              <div className='title' data-windrag>
+                <Typography variant='h4' component='h1' data-windrag>
+                  {'元火弹幕姬-配置面板'}
+                </Typography>
+              </div>
+              
+              <Paper elevation={3}>
+                <List>
+                  <WsDialog ref={WsRef} />
+                  <PaddingsDialog ref={PaddingsRef} />
+                  <BotDialog ref={BotRef} />
+                  
+                  <ListItem sx={{ padding: '5px 20px' }}>
+                    <ListItemText primary="Websocket Settings" />
+                    <IconButton color="inherit" size="small" onClick={() => WsRef.current?.open()}>
+                      <ArrowForward />
+                    </IconButton>
+                  </ListItem>
+                  
+                  <ListItem sx={{ padding: '5px 20px' }}>
+                    <ListItemText primary="Danmaku Settings" />
+                    <IconButton
+                      color="inherit"
+                      size="small"
+                      onClick={() => PaddingsRef.current?.open()}
+                    >
+                      <ArrowForward />
+                    </IconButton>
+                  </ListItem>
+                  
+                  <ListItem sx={{ padding: '5px 20px' }}>
+                    <ListItemText primary="QQBot Settings" />
+                    <IconButton color="inherit" size="small" onClick={() => BotRef.current?.open()}>
+                      <ArrowForward />
+                    </IconButton>
+                  </ListItem>
+                  
+                </List>
+              </Paper>
+            </div>
           </ErrorBoundary>
         </Paper>
       </ThemeProvider>
@@ -96,4 +115,4 @@ const App = () => {
   )
 }
 
-export default App
+export default App;

@@ -29,6 +29,7 @@ parking_lot = "0.12"
 tokio-tungstenite = "0.19"
 tokio = "1.0"
 futures-util = { version = "0.3.28", default-features = false, features = ["sink", "std"] }
+window-shadows = "0.2.1"
 
 [features]
 # by default Tauri runs in production mode

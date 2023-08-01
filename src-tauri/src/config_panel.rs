@@ -15,8 +15,8 @@ pub fn create_config_panel(app_handle: &AppHandle) {
     )
     .center()
     .title("DanmakuLight Config Panel")
-    // .decorations(false)
-    // .transparent(true)
+    .decorations(false)
+    .transparent(true)
     .min_inner_size(500.0, 400.0);
 
     match builder.visible(false).build() {
@@ -26,6 +26,7 @@ pub fn create_config_panel(app_handle: &AppHandle) {
                 tokio::time::sleep(std::time::Duration::from_millis(500)).await;
                 
                 if let Some(window) = app_handle.get_window("config_panel") {
+                    let _ = window_shadows::set_shadow(&window, true);
                     let _ = window.unminimize();
                     let _ = window.show();
                     let _ = window.set_focus();

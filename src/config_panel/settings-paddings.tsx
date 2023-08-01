@@ -1,11 +1,11 @@
-import React, { forwardRef, useImperativeHandle, useState } from 'react'
+import { forwardRef, useImperativeHandle, useState } from 'react'
 import { List, ListItem, ListItemText, TextField } from '@mui/material'
 import { DialogRef, SubDialog } from './components/sub-dialog'
 import { limitu16 } from '@/utils/limit-int'
 import { useLockFn } from 'ahooks'
 import { useConfig } from './hooks'
 
-export const PaddingsDialog = forwardRef<DialogRef>((props, ref) => {
+export const PaddingsDialog = forwardRef<DialogRef>((_props, ref) => {
   const { config, patchConfig } = useConfig()
 
   const [open, setOpen] = useState(false)

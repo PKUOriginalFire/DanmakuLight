@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import Danmaku from 'danmaku'
 import { info } from 'tauri-plugin-log-api'
 import { listen } from '@tauri-apps/api/event'
