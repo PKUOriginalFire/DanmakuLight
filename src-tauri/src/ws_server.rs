@@ -14,7 +14,7 @@ pub fn setup(app: &tauri::App, config: &Config) {
         ws::Error::new(ws::ErrorKind::Custom(Box::new(err)), details)
     }
 
-    let app = Arc::new(Mutex::new(app.handle()));
+    let app = Arc::new(Mutex::new(app.handle().clone()));
     let address = format!("127.0.0.1:{}", config.ws_port);
     thread::spawn(move || {
         ws::listen(address, |_| {

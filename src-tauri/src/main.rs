@@ -8,7 +8,7 @@ use anyhow::{anyhow, Result};
 use danmaku_light::config::{load_config, Config};
 use tauri::Manager;
 
-use tauri_plugin_log::{Builder as LoggerBuilder, LogTarget};
+use tauri_plugin_log::Builder as LoggerBuilder;
 
 mod tray;
 mod ws_server;
@@ -33,9 +33,7 @@ fn get_config() -> Result<Config, String> {
 }
 
 fn main() {
-    let logger = LoggerBuilder::default()
-        .targets([LogTarget::LogDir, LogTarget::Stdout])
-        .build();
+    let logger = LoggerBuilder::default().build();
 
     tauri::Builder::default()
         .setup(|app| Ok(setup(app)?))

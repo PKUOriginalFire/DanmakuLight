@@ -1,7 +1,7 @@
 {
   "build": {
-    "beforeDevCommand": "pnpm dev",
     "beforeBuildCommand": "pnpm build",
+    "beforeDevCommand": "pnpm dev",
     "devPath": "http://localhost:1420",
     "distDir": "../dist",
     "withGlobalTauri": true
@@ -10,10 +10,12 @@
     "productName": "danmaku-light",
     "version": "0.1.0"
   },
+  "plugins": {
+    "updater": {
+      "endpoints": []
+    }
+  },
   "tauri": {
-    "allowlist": {
-      "all": true
-    },
     "bundle": {
       "active": true,
       "category": "DeveloperTool",
@@ -41,6 +43,9 @@
       "resources": [],
       "shortDescription": "",
       "targets": "all",
+      "updater": {
+        "active": false
+      },
       "windows": {
         "certificateThumbprint": null,
         "digestAlgorithm": "sha256",
@@ -50,24 +55,21 @@
     "security": {
       "csp": null
     },
-    "updater": {
-      "active": false
+    "trayIcon": {
+      "iconAsTemplate": true,
+      "iconPath": "icons/icon.png"
     },
     "windows": [
       {
+        "alwaysOnTop": true,
+        "decorations": false,
         "fullscreen": true,
         "resizable": false,
-        "decorations": false,
-        "alwaysOnTop": true,
         "skipTaskbar": true,
-        "transparent": true,
+        "title": "元火弹幕姬",
         "titleBarStyle": "Transparent",
-        "title": "元火弹幕姬"
+        "transparent": true
       }
-    ],
-    "systemTray": {
-      "iconPath": "icons/icon.png",
-      "iconAsTemplate": true
-    }
+    ]
   }
 }
