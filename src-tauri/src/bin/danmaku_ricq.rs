@@ -44,7 +44,7 @@ impl chocho::ricq::handler::PartlyHandler for Handler {
             .collect::<Vec<_>>()
             .join("");
         let message = message.trim();
-        if message.is_empty() {
+        if message.is_empty() || message.len() > 150 {
             return;
         }
 
