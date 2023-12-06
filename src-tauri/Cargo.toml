@@ -12,6 +12,14 @@ rust-version = "1.57"
 name = "danmaku-light"
 path = "src/main.rs"
 
+[[bin]]
+name = "danmaku-ricq"
+path = "src/bin/danmaku_ricq.rs"
+
+[[bin]]
+name = "test-client"
+path = "src/bin/test_client.rs"
+
 [build-dependencies]
 tauri-build = { version = "1.5", features = [] }
 
