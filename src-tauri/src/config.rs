@@ -22,9 +22,9 @@ impl Default for Config {
 }
 
 pub fn get_config_file_path() -> anyhow::Result<std::path::PathBuf> {
-    Ok(confy::get_configuration_file_path("danmaku-light", None)?)
+    Ok(std::path::PathBuf::from("./danmaku-light.toml"))
 }
 
 pub fn load_config() -> anyhow::Result<Config> {
-    Ok(confy::load("danmaku-light", None)?)
+    Ok(confy::load_path(get_config_file_path()?)?)
 }
