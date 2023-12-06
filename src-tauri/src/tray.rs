@@ -62,7 +62,10 @@ fn show_hide(app: &tauri::AppHandle) -> Result<()> {
 
 /// 托盘菜单「编辑配置文件」选项。
 fn edit_config(_app: &tauri::AppHandle) -> Result<()> {
-    edit::edit_file(get_config_file_path()?)?;
+    let editor = edit::get_editor()?;
+    std::process::Command::new(editor)
+        .arg(get_config_file_path()?)
+        .spawn()?;
     Ok(())
 }
 
