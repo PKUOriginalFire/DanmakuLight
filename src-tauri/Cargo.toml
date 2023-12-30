@@ -26,17 +26,17 @@ tauri-build = { version = "1.5", features = [] }
 [dependencies]
 serde_json = "1.0"
 serde = { version = "1.0", features = ["derive"] }
-tauri = { version = "1.5", features = ["api-all", "config-json5", "system-tray"] }
+tauri = { version = "1.5.3", features = ["api-all", "config-json5", "system-tray"] }
 tauri-plugin-log = { git = "https://github.com/tauri-apps/plugins-workspace", branch = "v1" }
 ws = "0.9"
 anyhow = "1.0"
 log = "0.4"
 confy = "0.5"
-edit = "0.1.4"
+edit = "0.1.5"
 chocho = { git = "https://github.com/Wybxc/chocho.git" }
 chocho_msg = { git = "https://github.com/Wybxc/chocho.git" }
-async-trait = "0.1.68"
-tracing = "0.1.37"
+async-trait = "0.1.75"
+tracing = "0.1.40"
 
 [features]
 # by default Tauri runs in production mode
