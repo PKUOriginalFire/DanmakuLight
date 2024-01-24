@@ -8,6 +8,8 @@ use tauri::{
 
 use danmaku_light::{config::get_config_file_path, message::Danmaku};
 
+use crate::config_panel::create_config_panel;
+
 pub fn setup(app: &tauri::App) -> Result<()> {
     let tray_menu = SystemTrayMenu::new()
         .add_item(CustomMenuItem::new("show_hide", "显示/隐藏").selected())
@@ -38,6 +40,9 @@ pub fn setup(app: &tauri::App) -> Result<()> {
                 if let Err(e) = result {
                     log::error!("failed to handle system tray event: {}", e);
                 }
+            }
+            else if let SystemTrayEvent::DoubleClick { .. } = event {
+                create_config_panel(&handle);
             }
         })
         .build(app)?;

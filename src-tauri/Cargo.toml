@@ -37,6 +37,9 @@ chocho = { git = "https://github.com/Wybxc/chocho.git" }
 chocho_msg = { git = "https://github.com/Wybxc/chocho.git" }
 async-trait = "0.1.75"
 tracing = "0.1.40"
+once_cell = "1.18"
+parking_lot = "0.12"
+window-shadows = "0.2.1"
 
 [features]
 # by default Tauri runs in production mode

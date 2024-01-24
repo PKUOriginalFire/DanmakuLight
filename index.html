@@ -5,7 +5,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>元火弹幕姬</title>
-  <script type="module" src="/src/main.ts" defer></script>
   <style>
     html,
     body {
@@ -17,48 +16,12 @@
       background: #ffffff00;
       overflow: hidden;
     }
-
-    #app {
-      position: fixed;
-      top: 0;
-      left: 0;
-      bottom: 0;
-      right: 0;
-      overflow: hidden;
-    }
-
-    #splashscreen {
-      position: fixed;
-      top: 0;
-      left: 0;
-      bottom: 0;
-      right: 0;
-      background: transparent;
-      display: flex;
-      align-items: center;
-      z-index: 999;
-      transition: opacity 0.5s;
-    }
-
-    #splashscreen p {
-      flex: 1;
-      text-align: center;
-      font-size: 50px;
-      font-family: fantasy;
-      color: white;
-      text-shadow: 3px 3px 5px black;      
-    }
   </style>
 </head>
 
 <body>
-  <div id="app">
-    <!-- 挂载弹幕的区域 -->
-  </div>
-
-  <div id="splashscreen">
-    <p>Danmaku-Light</p>
-  </div>
+  <div id="root"></div>
+  <script type="module" src="/src/main.tsx"></script>
 </body>
 
 </html>
