@@ -26,7 +26,7 @@ fn setup(app: &mut tauri::App) -> Result<()> {
 
     let config = load_config()?;
 
-    ws_server::setup(app, &config);
+    ws_server::setup(app, config.ws_port);
     tray::setup(app)?;
 
     Ok(())
