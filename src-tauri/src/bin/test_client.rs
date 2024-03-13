@@ -3,7 +3,8 @@ use std::thread;
 use danmaku_light::message::Danmaku;
 
 fn main() -> anyhow::Result<()> {
-    let url = std::env::var("WS_URL")?;
+    // let url = std::env::var("WS_URL")?;
+    let url = "ws://localhost:3211";
 
     ws::connect(url, |out| {
         let danmaku = Danmaku {

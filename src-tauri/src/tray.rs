@@ -8,12 +8,17 @@ use tauri::{
 
 use danmaku_light::{config::get_config_file_path, message::Danmaku};
 
+use crate::{config::global_config, config_panel::create_config_panel};
+
 pub fn setup(app: &tauri::App) -> Result<()> {
     let tray_menu = SystemTrayMenu::new()
         .add_item(CustomMenuItem::new("show_hide", "显示/隐藏").selected())
         .add_native_item(SystemTrayMenuItem::Separator)
+        .add_item(CustomMenuItem::new("show_panel", "打开配置面板"))
+        .add_native_item(SystemTrayMenuItem::Separator)
         .add_item(CustomMenuItem::new("edit_config", "编辑配置文件"))
         .add_item(CustomMenuItem::new("reload_config", "重载配置文件"))
+        .add_item(CustomMenuItem::new("restart_ws", "重启websockte服务"))
         .add_native_item(SystemTrayMenuItem::Separator)
         .add_item(CustomMenuItem::new("about", "关于"))
         .add_native_item(SystemTrayMenuItem::Separator)
@@ -26,8 +31,10 @@ pub fn setup(app: &tauri::App) -> Result<()> {
             if let SystemTrayEvent::MenuItemClick { id, .. } = event {
                 let result = match id.as_str() {
                     "show_hide" => show_hide(&handle),
+                    "show_panel" => Ok(create_config_panel(&handle)),
                     "edit_config" => edit_config(&handle),
                     "reload_config" => reload_config(&handle),
+                    "restart_ws" => crate::ws_server::setup(&handle, global_config().content().ws_port),
                     "about" => about(&handle),
                     "quit" => {
                         handle.exit(0);
@@ -38,6 +45,9 @@ pub fn setup(app: &tauri::App) -> Result<()> {
                 if let Err(e) = result {
                     log::error!("failed to handle system tray event: {}", e);
                 }
+            }
+            else if let SystemTrayEvent::DoubleClick { .. } = event {
+                create_config_panel(&handle);
             }
         })
         .build(app)?;
