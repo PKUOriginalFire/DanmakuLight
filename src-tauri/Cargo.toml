@@ -31,7 +31,7 @@ tauri-plugin-log = { git = "https://github.com/tauri-apps/plugins-workspace", br
 ws = "0.9"
 anyhow = "1.0"
 log = "0.4"
-confy = "0.5"
+confy = "0.6.1"
 edit = "0.1.5"
 chocho = { git = "https://github.com/Wybxc/chocho.git" }
 chocho_msg = { git = "https://github.com/Wybxc/chocho.git" }
@@ -55,3 +55,4 @@ custom-protocol = ["tauri/custom-protocol"]
 [patch.crates-io]
 ricq = { git = "https://github.com/Wybxc/ricq.git", branch = "chocho-patch" }
 ricq-core = { git = "https://github.com/Wybxc/ricq.git", branch = "chocho-patch" }
+rqrr = { git="https://github.com/Wybxc/rqrr.git", branch="danmaku_patch" }
